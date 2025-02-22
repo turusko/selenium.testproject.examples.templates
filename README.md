@@ -5,7 +5,7 @@ This is a template project for Selenium tests, I want to create a reusable resou
 # Goals I am aiming for:
 - [ ] Create a reusable project that can be used as a template for Selenium tests
 - [x] Have drivers for Chrome, Firefox, and Edge
-- [ ] Have drivers for remote and local testing
+- [x] Have drivers for remote and local testing
 - [ ] Have a way to run tests in parallel
 - [ ] Have a way to run tests in a CI/CD pipeline
 

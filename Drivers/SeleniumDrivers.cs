@@ -36,6 +36,10 @@ namespace selenium.testproject.examples.templates.Drivers
             new DriverManager().SetUpDriver(new EdgeConfig());
             var options = new EdgeOptions();
             options.AddArgument("--start-maximized");
+            if (Environment.GetEnvironmentVariable("Headless") == "true")
+            {
+                options.AddArgument("--headless");
+            }
             options.AddArgument("--user-agent=Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25");
 
             return new EdgeDriver(options);
@@ -47,7 +51,10 @@ namespace selenium.testproject.examples.templates.Drivers
             var options = new FirefoxOptions();
             options.AddArgument("--start-maximized");
             options.AddArgument("--disable-notifications");
-            options.AddArgument("--headless");
+            if (Environment.GetEnvironmentVariable("Headless") == "true")
+            {
+                options.AddArgument("--headless");
+            }
             return new FirefoxDriver(options);
 
         }
@@ -57,7 +64,10 @@ namespace selenium.testproject.examples.templates.Drivers
             var options = new ChromeOptions();
             options.AddArgument("--start-maximized");
             options.AddArgument("--disable-notifications");
-            options.AddArgument("--headless");
+            if (Environment.GetEnvironmentVariable("Headless") == "true")
+            {
+                options.AddArgument("--headless");
+            }
             return new ChromeDriver(options);
         }
 

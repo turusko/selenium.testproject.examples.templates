@@ -18,3 +18,9 @@ Specflow as far as i am aware (I can be wrong) is no longer supported and as we 
 
 I've not planned out everything as i imagine this will be a work in progress for a while.But i do hope you are able to use this project as a template for your own work.
 
+# Enviroment Varibles
+On windows if you want to run in headless mode set the enviroment "Headless" varible to true
+
+`setx Headless true -m`
+
+Just a note, you may have to restart Visual studio for the enviroment varible to take effect. Ideally when doing a CI/CD pipeline you would set this in the pipeline itself.

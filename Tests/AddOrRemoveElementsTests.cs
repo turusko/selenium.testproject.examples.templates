@@ -20,6 +20,5 @@ namespace selenium.testproject.examples.templates.Tests
             _fixture.Steps.WhenIClickTheAddElementsButton();
             _fixture.Steps.ThenTheDeleteButtonIsVisible();
         }
-
     }
 }

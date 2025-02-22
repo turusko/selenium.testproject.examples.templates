@@ -18,7 +18,7 @@ namespace selenium.testproject.examples.templates.Fixtures
         public AddOrRemoveElementsFixture() 
         {
 
-            Driver =  new SeleniumDrivers(BrowserType.Edge).Driver;
+            Driver =  new SeleniumDrivers(BrowserType.Edge, remote:true).Driver;
             Driver.Navigate().GoToUrl("https://the-internet.herokuapp.com/add_remove_elements/");
             Steps = new AddOrRemoveElementsSteps(Driver);
 

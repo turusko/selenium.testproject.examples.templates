@@ -85,7 +85,6 @@ namespace selenium.testproject.examples.templates.Drivers
             {
                 options.AddArgument("--headless");
             }
-
             return new EdgeDriver(options);
 
         }

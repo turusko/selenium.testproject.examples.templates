@@ -25,7 +25,6 @@ On windows if you want to run in headless mode set the enviroment "Headless" var
 
 Just a note, you may have to restart Visual studio for the enviroment varible to take effect. Ideally when doing a CI/CD pipeline you would set this in the pipeline itself.
 
-
 # Docker Selenium Grid
 All my infomration for setting up docker was from https://www.automatedtestingwithtuyen.com/post/part-3-set-up-selenium-grid-with-docker-compose
 
@@ -35,4 +34,5 @@ For a quick start up of the grid run the following command in the root of the pr
 there is more resource here https://github.com/SeleniumHQ/docker-selenium most if not all of the yml do come from these sources. 
 
 For video output for your tests you can use the docker-compose-v3-video-in-node.yml, I updated the mounting so you can mount /videos directory it is currently set to d:/videos but you can change this to whatever you want.
+
 

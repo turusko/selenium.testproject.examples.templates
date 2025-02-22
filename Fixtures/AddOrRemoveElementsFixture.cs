@@ -10,18 +10,24 @@ using System.Threading.Tasks;
 
 namespace selenium.testproject.examples.templates.Fixtures
 {
-    public class AddOrRemoveElementsFixture
+    public class AddOrRemoveElementsFixture : IDisposable
     {
-        protected readonly IWebDriver _driver;
-        protected readonly AddOrRemoveElementsSteps _steps;
+        public readonly IWebDriver Driver;
+        public readonly AddOrRemoveElementsSteps Steps;
 
         public AddOrRemoveElementsFixture() 
-        { 
+        {
 
-            _driver =  new SeleniumDrivers(BrowserType.Edge).Driver;
-            _driver.Navigate().GoToUrl("https://the-internet.herokuapp.com/add_remove_elements/");
-            _steps = new AddOrRemoveElementsSteps(_driver);
+            Driver =  new SeleniumDrivers(BrowserType.Edge).Driver;
+            Driver.Navigate().GoToUrl("https://the-internet.herokuapp.com/add_remove_elements/");
+            Steps = new AddOrRemoveElementsSteps(Driver);
 
-        } 
+        }
+
+        public void Dispose()
+        {
+            Driver.Quit();
+            Driver.Dispose();
+        }
     }
 }

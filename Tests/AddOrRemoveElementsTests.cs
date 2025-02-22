@@ -4,18 +4,21 @@ using selenium.testproject.examples.templates.PageObjects;
 
 namespace selenium.testproject.examples.templates.Tests
 {
-    public class AddOrRemoveElementsTests : AddOrRemoveElementsFixture
+    public class AddOrRemoveElementsTests : IClassFixture<AddOrRemoveElementsFixture>
+
     {
-        public AddOrRemoveElementsTests() : base()
+        private readonly AddOrRemoveElementsFixture _fixture;
+        public AddOrRemoveElementsTests(AddOrRemoveElementsFixture fixture) : base()
         {
+            _fixture = fixture;
 
         }
         [Fact]
         public void ClickingTheAddElementCreatesANewButton()
         {
-            _steps.GivenTheAddElementsButtonIsVisible();
-            _steps.WhenIClickTheAddElementsButton();
-            _steps.ThenTheDeleteButtonIsVisible();
+            _fixture.Steps.GivenTheAddElementsButtonIsVisible();
+            _fixture.Steps.WhenIClickTheAddElementsButton();
+            _fixture.Steps.ThenTheDeleteButtonIsVisible();
         }
     }
 }

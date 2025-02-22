@@ -5,6 +5,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Edge;
 using selenium.testproject.examples.templates.Enums;
+using OpenQA.Selenium.Remote;
 
 namespace selenium.testproject.examples.templates.Drivers
 {
@@ -13,21 +14,65 @@ namespace selenium.testproject.examples.templates.Drivers
     {
         public IWebDriver Driver { get; set; }
 
-        public SeleniumDrivers(BrowserType browser = BrowserType.Edge)
+        public SeleniumDrivers(BrowserType browser = BrowserType.Edge, bool remote = false)
         {
-            switch (browser)
+            if (remote)
             {
-                case BrowserType.Chrome:
-                    Driver = ChromeDriverSetup();
-                    break;
-                case BrowserType.Firefox:
-                    Driver = FirefoxDriverSetup();
-                    break;
-                case BrowserType.Edge:
-                    Driver = EdgeDriverSetup();
-                    break;
-                default:
-                    throw new ArgumentException($"Browser '{browser}' is not supported.");
+                var uri = "http://localhost:4444";
+                ICapabilities capabilities;
+                switch (browser)
+                {
+                    case BrowserType.Chrome:
+                        var chromeOptions = new ChromeOptions();
+                        chromeOptions.AddArgument("--start-maximized");
+                        chromeOptions.AddArgument("--disable-notifications");
+                        if (Environment.GetEnvironmentVariable("Headless") == "true")
+                        {
+                            chromeOptions.AddArgument("--headless");
+                        }
+                        capabilities = chromeOptions.ToCapabilities();
+                        break;
+                    case BrowserType.Firefox:
+                        var firefoxOptions = new FirefoxOptions();
+                        firefoxOptions.AddArgument("--start-maximized");
+                        firefoxOptions.AddArgument("--disable-notifications");
+                        if (Environment.GetEnvironmentVariable("Headless") == "true")
+                        {
+                            firefoxOptions.AddArgument("--headless");
+                        }
+                        capabilities = firefoxOptions.ToCapabilities();
+                        break;
+                    case BrowserType.Edge:
+                        var edgeOptions = new EdgeOptions();
+                        edgeOptions.AddArgument("--start-maximized");
+                        if (Environment.GetEnvironmentVariable("Headless") == "true")
+                        {
+                            edgeOptions.AddArgument("--headless");
+                        }
+                        capabilities = edgeOptions.ToCapabilities();
+                        break;
+                    default:
+                        throw new ArgumentException($"Browser '{browser}' is not supported for remote execution.");
+                }
+                var commandTimeout = TimeSpan.FromMinutes(5);
+                Driver = new RemoteWebDriver(new Uri(uri), capabilities, commandTimeout);
+            }
+            else
+            {
+                switch (browser)
+                {
+                    case BrowserType.Chrome:
+                        Driver = ChromeDriverSetup();
+                        break;
+                    case BrowserType.Firefox:
+                        Driver = FirefoxDriverSetup();
+                        break;
+                    case BrowserType.Edge:
+                        Driver = EdgeDriverSetup();
+                        break;
+                    default:
+                        throw new ArgumentException($"Browser '{browser}' is not supported.");
+                }
             }
         }
 
@@ -40,7 +85,6 @@ namespace selenium.testproject.examples.templates.Drivers
             {
                 options.AddArgument("--headless");
             }
-            options.AddArgument("--user-agent=Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25");
 
             return new EdgeDriver(options);
 

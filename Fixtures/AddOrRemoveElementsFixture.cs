@@ -1,12 +1,8 @@
 ﻿using OpenQA.Selenium;
+using selenium.testproject.examples.templates.config;
 using selenium.testproject.examples.templates.Drivers;
 using selenium.testproject.examples.templates.Enums;
 using selenium.testproject.examples.templates.StepDefinitions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace selenium.testproject.examples.templates.Fixtures
 {
@@ -17,8 +13,9 @@ namespace selenium.testproject.examples.templates.Fixtures
 
         public AddOrRemoveElementsFixture()
         {
-            Driver = new SeleniumDrivers(BrowserType.Edge).Driver;
-            Driver.Navigate().GoToUrl("https://the-internet.herokuapp.com/add_remove_elements/");
+            Driver = new SeleniumDrivers().Driver;
+            var url = ConfigManager.GetValue("TestEnv:BaseUrl");
+            Driver.Navigate().GoToUrl(url);
             Steps = new AddOrRemoveElementsSteps(Driver);
         }
 

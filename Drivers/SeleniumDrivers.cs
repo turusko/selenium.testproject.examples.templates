@@ -6,20 +6,46 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Edge;
 using selenium.testproject.examples.templates.Enums;
 using OpenQA.Selenium.Remote;
+using selenium.testproject.examples.templates.config;
 
 namespace selenium.testproject.examples.templates.Drivers
 {
     internal class SeleniumDrivers
     {
-        public IWebDriver? Driver { get; set; }
+        public readonly IWebDriver? Driver;
+        private readonly bool _headless;
 
-        public SeleniumDrivers(BrowserType browser = BrowserType.Edge, bool remote = false, int remoteDriverTimeout = 5)
+        public SeleniumDrivers()
         {
+            _headless = ConfigManager.GetValue("DriverConfig:Headless") == "True";
+            BrowserType browser;
+            var configBrowser = ConfigManager.GetValue("DriverConfig:Browser");
+            var remote = ConfigManager.GetValue("DriverConfig:Remote:Enabled") == "True";
+
+            switch (configBrowser)
+            {
+                case "Chrome":
+                    browser = BrowserType.Chrome;
+                    break;
+
+                case "Firefox":
+                    browser = BrowserType.Firefox;
+                    break;
+
+                case "Edge":
+                    browser = BrowserType.Edge;
+                    break;
+
+                default:
+                    throw new ArgumentException($"Browser '{configBrowser}' is not supported.");
+            }
+
             if (remote)
             {
-                var uri = "http://localhost:4444";
+                var uri = ConfigManager.GetValue("DriverConfig:Remote:GridURL");
+                int timeout = int.Parse(ConfigManager.GetValue("DriverConfig:Remote:RemoteTimeoutMinutes"));
                 var options = GetOptions(browser);
-                var commandTimeout = TimeSpan.FromMinutes(remoteDriverTimeout);
+                var commandTimeout = TimeSpan.FromMinutes(timeout);
                 Driver = new RemoteWebDriver(new Uri(uri), options.ToCapabilities(), commandTimeout);
             }
             else
@@ -42,7 +68,7 @@ namespace selenium.testproject.examples.templates.Drivers
             {
                 chromeOptions.AddArgument("--start-maximized");
                 chromeOptions.AddArgument("--disable-notifications");
-                if (Environment.GetEnvironmentVariable("Headless") == "true")
+                if (_headless)
                 {
                     chromeOptions.AddArgument("--headless");
                 }
@@ -51,7 +77,7 @@ namespace selenium.testproject.examples.templates.Drivers
             {
                 firefoxOptions.AddArgument("--start-maximized");
                 firefoxOptions.AddArgument("--disable-notifications");
-                if (Environment.GetEnvironmentVariable("Headless") == "true")
+                if (_headless)
                 {
                     firefoxOptions.AddArgument("--headless");
                 }
@@ -60,7 +86,7 @@ namespace selenium.testproject.examples.templates.Drivers
             {
                 edgeOptions.AddArgument("--start-maximized");
                 edgeOptions.AddArgument("--disable-notifications");
-                if (Environment.GetEnvironmentVariable("Headless") == "true")
+                if (_headless)
                 {
                     edgeOptions.AddArgument("--headless");
                 }

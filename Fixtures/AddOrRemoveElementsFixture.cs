@@ -15,13 +15,11 @@ namespace selenium.testproject.examples.templates.Fixtures
         public readonly IWebDriver Driver;
         public readonly AddOrRemoveElementsSteps Steps;
 
-        public AddOrRemoveElementsFixture() 
+        public AddOrRemoveElementsFixture()
         {
-
-            Driver =  new SeleniumDrivers(BrowserType.Edge, remote:true).Driver;
+            Driver = new SeleniumDrivers(BrowserType.Edge).Driver;
             Driver.Navigate().GoToUrl("https://the-internet.herokuapp.com/add_remove_elements/");
             Steps = new AddOrRemoveElementsSteps(Driver);
-
         }
 
         public void Dispose()
